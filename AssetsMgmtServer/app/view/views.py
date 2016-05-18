@@ -3,56 +3,62 @@ from flask import render_template,request, jsonify
 from datetime import datetime
 import time
 
+from json import *
+
 # from sqlalchemy import create_engine, MetaData
 from app.db.db import *
+
 
 @app.route('/')
 def index():
     return jsonify(status="success")
 
 
-@app.route('/adduser', methods=['POST',])
-def addUser():
-    jsondata = request.json
+@app.route('/add_user', methods=['POST',])
+def add_user():
+    json_data = request.json
+    ret = add("user",json_data)
+    return ret
 
-    print type(jsondata)
-    print jsondata['name']
-    print jsondata["full_name"]
-    print jsondata["email"]
-    print jsondata["password"]
 
-    db = AssetsMgmtDB()
-    print db
-    uid = db._create_user(name=jsondata["name"], full_name=jsondata["full_name"],email=jsondata["email"],password=jsondata["password"],add_time=time.localtime())
-    print uid
+@app.route('/get_user')
+def get_user_all():
+    ret = get("user")
+    return ret
 
+
+@app.route('/testConn')
+def testConn():
+    db = AssetsMgmtDB(host="106.187.46.80",port=27017)
+
+    db.test_connection()
 
     return jsonify(status="success ")
 
-@app.route('/getUser')
-def getUser():
-    # jsondata = request.json
+
+def add(collection_name, data):
+    json_data = request.json
+
+    db = AssetsMgmtDB(host="106.187.46.80",port=27017)
+    data = db.add_data_to_collection(collection_name, json_data)
+
+    if data is not 0:
+        print data
+        del data["_id"]
+        return jsonify(data)
+    else:
+        return jsonify(status="success ")
+
+
+def get(collection_name):
+    db = AssetsMgmtDB(host="106.187.46.80",port=27017)
+    data = db.get_collection(collection_name)
+
+    if data is -1:
+        print "Get collection fail:"+str(collection_name)
+        return jsonify(status="fail")
     #
-    # for(k,v) in jsondata.items():
-    #     if (k == "addUser"):
-    #         db = AssetsMgmtDB()
-    #         uid = db._create_user(name=v["name"], full_name=v["full_name"],email=v["email"], password=v["password"])
-    #         print uid
-    #     else:
-    #         print "Not support type:",k
-    #         return jsonify(status="Fail: not support type")
-
-    return jsonify(status="success")
-
-
-
-@app.route('/delete/<string:todo_id>')
-def delete(todo_id):
-    return jsonify(status="success")
-
-
-@app.route('/update', methods=['POST',])
-def update():
-    print "here"
-    return jsonify(status="success")
-
+    # print type(data)
+    # print data
+    # return jsonify(data)
+    return JSONEncoder().encode(data)
