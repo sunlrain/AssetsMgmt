@@ -48,7 +48,7 @@ class _AssetsMgmtDB(object):
             return id
 
         db = self.db_conn.AssetsMgmt
-        collection = db.collection_name
+        collection = db[collection_name]
 
         print data
         print type(data)
@@ -134,7 +134,7 @@ class _AssetsMgmtDB(object):
             return -1
 
         db = self.db_conn.AssetsMgmt
-        collection = db.collection_name
+        collection = db[collection_name]
 
         print collection_definition["primaryKey"]
         print data[collection_definition["primaryKey"]]
@@ -157,7 +157,7 @@ class _AssetsMgmtDB(object):
             return -1
 
         db = self.db_conn.AssetsMgmt
-        collection = db.collection_name
+        collection = db[collection_name]
 
         # us = collection.find_one()
         i = 0
