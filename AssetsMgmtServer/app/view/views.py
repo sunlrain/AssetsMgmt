@@ -26,6 +26,19 @@ def get_user_all():
     ret = get("user")
     return ret
 
+@app.route('/add_ont', methods=['POST',])
+def add_ont():
+    json_data = request.json
+    ret = add("ont",json_data)
+    return ret
+
+
+@app.route('/get_ont')
+def get_ont_all():
+    ret = get("ont")
+    return ret
+
+
 
 @app.route('/testConn')
 def testConn():
