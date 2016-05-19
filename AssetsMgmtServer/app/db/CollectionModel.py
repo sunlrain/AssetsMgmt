@@ -9,7 +9,8 @@ CollectionModel = \
                     "email": "",
                     "full_name": "",
                     "add_time": "",
-                    "status": ""
+                    "status": "",
+                    "note":""
                 }
         },
         "ont": {
@@ -23,7 +24,8 @@ CollectionModel = \
                     "mac_address": "",
                     "owner": "",
                     "add_time": "",
-                    "status": ""
+                    "status": "",
+                    "note":""
                 }
         }
     }
