@@ -34,8 +34,12 @@ const styles = StyleSheet.create({
 
 var logo=require('../../Resources/ubuntu.png');
 var _navigator;
+var _url='http://www.csdn.com';
 
 class Web extends Component{
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <View style={{flex:1}}>
@@ -45,7 +49,7 @@ class Web extends Component{
             </Text>
           </TouchableOpacity>
           <WebView 
-            source={{uri:'http://www.baidu.com'}}
+            source={{uri:_url}}
             automatioallyAdjustContentInsets={false}
             startInLoadingStatus={true}
             scalesPageToFit={true}
@@ -82,7 +86,7 @@ class About extends Component {
 
               <TouchableOpacity onPress={() => _navigator.push({title:'Kevin', id:'http'})}>
                 <Text style={styles.link}>
-                  http://www.sina.com.cn
+                  http://www.csdn.com
                 </Text>
               </TouchableOpacity>
           </View>
