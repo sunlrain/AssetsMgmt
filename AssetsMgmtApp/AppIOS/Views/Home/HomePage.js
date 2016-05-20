@@ -30,9 +30,9 @@ class HomePage extends Component {
       <Navigator  
         style={{flex:1}}  
         initialRoute={{name:'TabbarView',component:TabbarView}}
-        configureScene={(route) => {
-          return Navigator.SceneConfigs.FloatFromLeft;
-        }}  
+        // configureScene={(route) => {
+        //   return Navigator.SceneConfigs.FloatFromLeft;
+        // }}  
         renderScene={this._renderNavSubComponent.bind(this)}/>  
     );  
   }
@@ -48,10 +48,10 @@ class HomePage extends Component {
 
 // Define TabbarView  
 const tabBarTintColor = '#f8f8f8'; //Tab background color 
-const tabTintColor = '#3393F2';  //Color of choosing icon
+const tabTintColor = '#33D050';  //Color of choosing icon
 const navBarTintColor = '#EEEFF4'; //Navigator bar color
-const navItemTintColor = '#66666'; //Navigator item color
-const navTextColor = '#66666'; //Navigator text color
+const navItemTintColor = '#666668'; //Navigator item color
+const navTextColor = '#666666'; //Navigator text color
 
 class TabbarView extends Component {
   constructor(props) {
@@ -64,9 +64,10 @@ class TabbarView extends Component {
   render() {
     return (
       <TabBarIOS
+        ref='tabbar'
         unselectedTintColor="yellow"
-        tintColor="white"
-        barTintColor="darkslateblue" >
+        tintColor={tabTintColor}
+        barTintColor={tabBarTintColor}>
         {this._createTabbarItem('Home',require('../../Resources/home.png'),'TMBrief')}
         {this._createTabbarItem('History',require('../../Resources/history.png'),'TMHistory')}
         {this._createTabbarItem('About',require('../../Resources/about.png'),'TMAbout')}

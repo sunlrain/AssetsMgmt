@@ -27,11 +27,11 @@ class Brief extends Component {
     this.fetchData();
   }
   fetchData() {
-    console.log(Api.getUser());
+    // console.log(Api.getUser());
     fetch(Api.getUser())
     .then((response) => response.json())
     .then((responseData) => {
-        console.log(responseData);
+        // console.log(responseData);
         this.setState({
           loaded: true,
           data:responseData.col1,

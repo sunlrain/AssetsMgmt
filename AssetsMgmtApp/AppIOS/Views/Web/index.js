@@ -3,14 +3,12 @@ Coded by: Simar (github.com/iSimar)
 GitHub Project: https://github.com/iSimar/HackerNews-React-Native
 */
 
-'use strict';
-
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   View,
   WebView,
   StyleSheet
-} = React;
+} from 'react-native';
 
 var styles = StyleSheet.create({
   container: {
@@ -20,14 +18,14 @@ var styles = StyleSheet.create({
   },
 });
 
-var Web = React.createClass({
-  render: function() {
+class Web extends Component{
+  render() {
     return (
       <View style={styles.container}>
         <WebView url={this.props.url}/>
       </View>
     );
   }
-});
+}
 
 module.exports = Web;

@@ -4,10 +4,12 @@ import {
   View,
   Image,
   Text,
-  TouchableHighlight,
+  WebView,
+  Navigator,
+  TouchableOpacity,
 } from 'react-native';
 
-const Style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
@@ -30,46 +32,81 @@ const Style = StyleSheet.create({
   }
 });
 
-class About extends Component {
-  constructor(props) {
-    super(props);
-  }
+var logo=require('../../Resources/ubuntu.png');
+var _navigator;
 
+class Web extends Component{
   render() {
     return (
-      <View style={Style.container}>
-          <Image style={Style.logo} source={{uri: 'https://ruby-china-files.b0.upaiyun.com/assets/big_logo-5cdc3135cbb21938b8cd789bb9ffaa13.png'}} />
-          <Text style={Style.ad}>
-Kevin Test，对！没错！
-          </Text>
-          <Text style={Style.ad}>
-这里就是 xxx 社区，目前这里已经是国内最权威的 xxx 社区，拥有国内所有资深的 xxx 工程师。
-          </Text>
-
-
-        <TouchableHighlight onPress={() => this._onPress('ReactNative RubyChina', 'http://github.com/henter/ReactNativeRubyChina')}>
-          <Text style={Style.link}>
-            http://github.com/henter/ReactNativeRubyChina
-          </Text>
-        </TouchableHighlight>
-
-
+      <View style={{flex:1}}>
+          <TouchableOpacity onPress={() => _navigator.pop()}>
+            <Text style={styles.link}>
+              Back
+            </Text>
+          </TouchableOpacity>
+          <WebView 
+            source={{uri:'http://www.baidu.com'}}
+            automatioallyAdjustContentInsets={false}
+            startInLoadingStatus={true}
+            scalesPageToFit={true}
+          />
       </View>
 
     );
   }
+}
 
-  _onPress(title, url) {
-
-    this.props.navigator.push({
-      title: title,
-      component: require('../Web'),
-      passProps: {
-        url: url
-      },
-    });
-
+class About extends Component {
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   navigator: this.props.navigator,
+    // };
   }
+
+  renderScene (route, navigator)
+  {
+    _navigator = navigator;
+
+    if(route.id === 'main')
+    {
+        return (
+          <View style={styles.container}>
+              <Image style={styles.logo} source={logo} />
+              <Text style={styles.ad}>
+                Yes, you are right!
+              </Text>
+              <Text style={styles.ad}>
+                This is the Tools for Management.
+              </Text>
+
+              <TouchableOpacity onPress={() => _navigator.push({title:'Kevin', id:'http'})}>
+                <Text style={styles.link}>
+                  http://www.sina.com.cn
+                </Text>
+              </TouchableOpacity>
+          </View>
+        );
+    }
+
+    if (route.id === 'http')
+    {
+      return (
+          <Web navigator={navigator} route={route} />
+        );
+    }
+  }
+
+  render() {
+    var renderScene = this.renderScene;
+    return (
+        <Navigator 
+          initialRoute={{title:'Main', id:'main'}}
+          renderScene={renderScene}
+        />
+      );
+  }
+
 }
 
 module.exports = About;
