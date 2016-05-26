@@ -36,16 +36,23 @@ class _AssetsMgmtDB(object):
             return
         self.state = "connected"
 
-    def add_data_to_collection(self, collection_name, data):
-        print "Add data to collection: "
+    # Parameter:
+    #     collection_name: the collection name
+    #     data: the entry data in dict format
+    # Return value:
+    #     0: Add success
+    #     -1: Can not connect data base
+    #     -2: Found existing record
+    def add_entry_to_collection(self, collection_name, data):
+        print "Add entry to collection: "
         if self.state is "disconnect":
             return -1
         # check and see if test suite already exist gracefully
-        id = self.get_data_from_collection(collection_name, data)
+        id = self.get_entry_from_collection(collection_name, data)
         # print "id=",id
         if id > -1:
             print "add_data_to_collection: find existing record"
-            return id
+            return -2
 
         db = self.db_conn.AssetsMgmt
         collection = db[collection_name]
@@ -114,7 +121,7 @@ class _AssetsMgmtDB(object):
             pass
         return ret
 
-    def get_data_from_collection(self, collection_name, data):
+    def get_entry_from_collection(self, collection_name, data):
         if type(data) is not types.DictionaryType:
             print "get_data_from_collection: Parameter type incorrect: data"
             return -1
@@ -169,7 +176,7 @@ class _AssetsMgmtDB(object):
             colls["col"+str(i)] = item
             i = i + 1
 
-        print colls
+        # print colls
         return colls
 
     def test_connection(self):

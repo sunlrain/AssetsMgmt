@@ -10,23 +10,24 @@ CollectionModel = \
                     "full_name": "",
                     "add_time": "",
                     "status": "",
-                    "note":""
+                    "note": ""
                 }
         },
-        "ont": {
+        "asset": {
             "primaryKey": "premises_label",
             "fields":
                 {
                     "premises_label": "",
-                    "model": "",
-                    "fsan": "",
+                    "asset_name": "",
                     "serial_number": "",
+                    "fsan": "",
                     "mac_address": "",
                     "owner": "",
                     "add_time": "",
                     "status": "",
-                    "note":""
+                    "note": ""
                 }
         }
     }
 
+# Note: model, fsan, mac_address are only used for ONT

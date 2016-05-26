@@ -5,8 +5,8 @@ import time
 
 from json import *
 
-# from sqlalchemy import create_engine, MetaData
-from app.db.db import *
+from app.controller.controllerUser import *
+from app.controller.controllerAsset import *
 
 
 @app.route('/')
@@ -16,62 +16,41 @@ def index():
 
 @app.route('/add_user', methods=['POST',])
 def add_user():
-    json_data = request.json
-    ret = add("user",json_data)
-    return ret
+    jsondata = request.json
+    controller_user = ControllerUser()
+    ret = controller_user.add_user_to_collection(jsondata)
+    return jsonify(ret)
 
 
 @app.route('/get_user')
 def get_user_all():
-    ret = get("user")
-    return ret
+    controller_user = ControllerUser()
+    ret = controller_user.get_user_from_collection()
+    return jsonify(ret)
 
-@app.route('/add_ont', methods=['POST',])
-def add_ont():
-    json_data = request.json
-    ret = add("ont",json_data)
-    return ret
+@app.route('/get_user_summary')
+def get_user_summary():
+    controller_user = ControllerUser()
+    user_summary = controller_user.get_user_summary()
 
+    return jsonify(user_summary)
 
-@app.route('/get_ont')
-def get_ont_all():
-    ret = get("ont")
-    return ret
-
-
-
-@app.route('/testConn')
-def testConn():
-    db = AssetsMgmtDB(host="106.187.46.80",port=27017)
-
-    db.test_connection()
-
-    return jsonify(status="success ")
+@app.route('/add_asset', methods=['POST',])
+def add_asset():
+    jsondata = request.json
+    controller_asset = ControllerAsset()
+    ret = controller_asset.add_asset_to_collection(jsondata)
+    return jsonify(ret)
 
 
-def add(collection_name, data):
-    json_data = request.json
+@app.route('/get_asset')
+def get_asset():
+    controller_asset = ControllerAsset()
+    ret = controller_asset.get_asset_from_collection()
+    return jsonify(ret)
 
-    db = AssetsMgmtDB(host="106.187.46.80",port=27017)
-    data = db.add_data_to_collection(collection_name, json_data)
-
-    if data is not 0:
-        print data
-        del data["_id"]
-        return jsonify(data)
-    else:
-        return jsonify(status="success ")
-
-
-def get(collection_name):
-    db = AssetsMgmtDB(host="106.187.46.80",port=27017)
-    data = db.get_collection(collection_name)
-
-    if data is -1:
-        print "Get collection fail:"+str(collection_name)
-        return jsonify(status="fail")
-    #
-    # print type(data)
-    # print data
-    # return jsonify(data)
-    return JSONEncoder().encode(data)
+@app.route('/get_asset_summary')
+def get_asset_summary():
+    controller_asset = ControllerAsset()
+    ret = controller_asset.get_asset_summary()
+    return jsonify(status="success")
