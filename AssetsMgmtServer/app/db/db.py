@@ -10,22 +10,10 @@ from CollectionModel import CollectionModel
 class _AssetsMgmtDB(object):
     """Assets Management result/log database class. It is designed to be thread-safe.
     """
-
     state = "disconnect"
 
     # lock = RLock()
     def __init__(self, host="106.187.46.80", port=27017, logger=None):
-        """constructor
-
-        Args:
-            db_uri (string): data url string. default ("sqlite:///my_sqlite.db")
-            echo (bool): True - to turn on the sqlachemy debug log print; False otherwise
-            logger (object): Cafe CLogger object
-
-        Returns:
-            None
-
-        """
         self.state = "disconnect"
         self.db_host = host
         self.db_port = port
