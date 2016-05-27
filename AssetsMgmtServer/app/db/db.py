@@ -43,6 +43,7 @@ class _AssetsMgmtDB(object):
     #     0: Add success
     #     -1: Can not connect data base
     #     -2: Found existing record
+    #     -3: parameter incorrect
     def add_entry_to_collection(self, collection_name, data):
         print "Add entry to collection: "
         if self.state is "disconnect":
@@ -51,14 +52,19 @@ class _AssetsMgmtDB(object):
         id = self.get_entry_from_collection(collection_name, data)
         # print "id=",id
         if id > -1:
-            print "add_data_to_collection: find existing record"
+            print "Add_data_to_collection: find existing record"
             return -2
+
+        if self.validate_data_with_collection(collection_name,data) != 0 :
+            print "Add_data_to_collection: parameter incorrect"
+            return -3
+
 
         db = self.db_conn.AssetsMgmt
         collection = db[collection_name]
 
-        print data
-        print type(data)
+        # print data
+        # print type(data)
         # mydict = {"status": "Active", "name": "kliu", "full_name": "Kevin Liu", "password": "12345678", "email": "kevin.liu@calix.com", "add_time": "5/18/2016"}
 
         us = collection.insert(data)
@@ -83,8 +89,8 @@ class _AssetsMgmtDB(object):
             return ret
 
         try:
-            for key in model.keys():
-                if (data.has_key(key)):
+            for key in data.keys():
+                if (model.has_key(key)):
                     pass
                 else:
                     return ret
@@ -143,8 +149,8 @@ class _AssetsMgmtDB(object):
         db = self.db_conn.AssetsMgmt
         collection = db[collection_name]
 
-        print collection_definition["primaryKey"]
-        print data[collection_definition["primaryKey"]]
+        # print collection_definition["primaryKey"]
+        # print data[collection_definition["primaryKey"]]
         us = collection.find_one({collection_definition["primaryKey"]:data[collection_definition["primaryKey"]]})
 
         if us is None:

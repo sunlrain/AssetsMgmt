@@ -20,6 +20,8 @@ class ControllerBase(object):
             ret["Status"] = "Error: Can not connect database"
         elif data == -2:
             ret["Status"] = "Error: Found existing record"
+        elif data == -3:
+            ret["Status"] = "Error: Parameter mismatch"
         else:
             ret["Status"] = "Error: Unknown error"
 

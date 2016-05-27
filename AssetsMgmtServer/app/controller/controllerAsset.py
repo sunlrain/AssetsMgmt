@@ -25,6 +25,8 @@ class ControllerAsset(ControllerBase):
         # Get Assets Summary
         assets = self.get_collection_entries("asset")
 
+
+
         print type(assets)
 
         return
