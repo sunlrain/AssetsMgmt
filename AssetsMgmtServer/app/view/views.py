@@ -55,9 +55,26 @@ def get_asset_summary():
     ret = controller_asset.get_asset_summary()
     return jsonify(status="success")
 
+# return:
+# {
+#   "summary": [
+#     {
+#       "info": "1/2",
+#       "name": "GPONSFP"
+#     },
+#     {
+#       "info": "0/2",
+#       "name": "844G-1"
+#     },
+#     {
+#       "info": 5,
+#       "name": "user"
+#     }
+#   ]
+# }
 @app.route('/get_summary')
 def get_summary():
-    summary = {}
+    summary = []
 
     controller_asset = ControllerAsset()
     asset_summary = controller_asset.get_asset_summary()
@@ -65,11 +82,10 @@ def get_summary():
     controller_user = ControllerUser()
     user_summary = controller_user.get_user_summary()
 
-    summary["col0"] = user_summary
-    i=1
-    for element in asset_summary:
-        summary["col"+str(i)] = element
-        i = i + 1
-        
-    # print summary
-    return jsonify(summary)
+    summary = asset_summary
+    summary.append(user_summary)
+
+    ret = {"summary":summary}
+
+    print ret
+    return jsonify(ret)

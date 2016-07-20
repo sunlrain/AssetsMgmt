@@ -34,35 +34,15 @@ const styles = StyleSheet.create({
 
 var logo=require('../../Resources/ubuntu.png');
 var _navigator;
-var _url='http://www.csdn.com';
 
-class Web extends Component{
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <View style={{flex:1}}>
-          <TouchableOpacity onPress={() => _navigator.pop()}>
-            <Text style={styles.link}>
-              Back
-            </Text>
-          </TouchableOpacity>
-          <WebView 
-            source={{uri:_url}}
-            automatioallyAdjustContentInsets={false}
-            startInLoadingStatus={true}
-            scalesPageToFit={true}
-          />
-      </View>
-
-    );
-  }
-}
+import Web from './Web'
 
 class About extends Component {
   constructor(props) {
     super(props);
+    const { navigator } = this.props; 
+    if (navigator)
+       console.log("Navigator is not null")
     // this.state = {
     //   navigator: this.props.navigator,
     // };
@@ -84,7 +64,7 @@ class About extends Component {
                 This is the Tools for Management.
               </Text>
 
-              <TouchableOpacity onPress={() => _navigator.push({title:'Kevin', id:'http'})}>
+              <TouchableOpacity onPress={() => _navigator.push({title:'Kevin2', id:'http2'})}>
                 <Text style={styles.link}>
                   http://www.csdn.com
                 </Text>
@@ -94,6 +74,12 @@ class About extends Component {
     }
 
     if (route.id === 'http')
+    {
+      return (
+          <Web navigator={navigator} route={route} />
+        );
+    }
+    if (route.id === 'http2')
     {
       return (
           <Web navigator={navigator} route={route} />

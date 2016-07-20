@@ -9,32 +9,34 @@ import {
   StyleSheet,
   Text,
   View,
+  TabBarIOS,
+  NavigatorIOS,
   AlertIOS,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 var Api = require('../../Network/NetworkAPI');
 
-class Brief extends Component {
+class UserBrief extends Component {
   constructor(props) {
     super(props);
-     this.state = {
+    this.state = {
       data: null,
-      loaded: false,
+      selectedTab: "home",
     };
   }
-
   componentDidMount() {
     this.fetchData();
   }
   fetchData() {
-    // console.log(Api.getUser());
-    fetch(Api.getSummary())
+    console.log(Api.getUser());
+    fetch(Api.getUser())
     .then((response) => response.json())
     .then((responseData) => {
-        // console.log(responseData);
+        console.log(responseData);
         this.setState({
           loaded: true,
-          data:responseData.summary,
+          data:responseData.col1,
           presses: 0,
           notifCount: 0,
         });
@@ -55,34 +57,36 @@ class Brief extends Component {
   }
 
   renderData(data) {
-    // console.warn(data.length);
-    let items = data;
     return (
       <View style={styles.container}>
-      {
-        items.map(function (item){
-          return (        
-            <Text key={item.name} style={styles.welcome}>
-              {item.name}:{item.info}
-            </Text>
-            )
-        })
-      }
+        <Text style={styles.welcome}>
+          User Information:
+        </Text>
+        <Text style={styles.instructions}>
+          Name: {data.name} 
+        </Text>
+        <Text style={styles.instructions}>
+          Full Name: {data.full_name} 
+        </Text>
+        <Text style={styles.instructions}>
+          Email: {data.email} 
+        </Text>
+        <Text style={styles.instructions}>
+          Add Time: {data.add_time} 
+        </Text>
       </View>
     );
-
-
   }
 
   render() {
 
-    // return (
-    //   <View style={styles.container}>
-    //     <Text style={styles.welcome}>
-    //       here test
-    //     </Text>
-    //   </View>
-    // );
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          here test
+        </Text>
+      </View>
+    );
 
     if(!this.state.loaded)
     {
@@ -115,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = Brief;
+module.exports = UserBrief;
